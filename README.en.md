@@ -1,54 +1,74 @@
-# Game UI Smith
+﻿# Game UI Smith
 
-Game UI Smith is a frontend-only game UI and 2D asset workspace prototype built with React, TypeScript, and Vite. It combines AI asset generation, prompt recipes, canvas utilities, and downloadable results in one place.
+[中文说明](./README.cn.md)
+
+> AI-assisted game UI and 2D asset workbench for icons, buttons, sprites, prompt recipes, and canvas utilities.  
+
+This repository is packaged to be easy to **star, fork, run, remix, and contribute to**. It keeps a dedicated English version for global GitHub discovery, with a separate Chinese version linked above.
+
+## Why Star This
+
+- Practical project idea with a clear real-world use case.
+- Small enough to fork, study, and customize quickly.
+- English-first bilingual README for both global and Chinese-speaking developers.
+- Clean setup instructions, project structure, roadmap, and contribution entry points.
+- Built around popular GitHub themes such as AI tools, TypeScript, developer tools, local-first apps, automation, and indie-friendly workflows when relevant.
+
+## What It Does
+
+AI-assisted game UI and 2D asset workbench for icons, buttons, sprites, prompt recipes, and canvas utilities.
 
 ## Highlights
 
-- OpenAI-compatible configuration for Base URL, API Key, image models, video models, and Responses models.
-- Text-to-image, image-to-image, text-to-video, and image-to-video workflow entries.
-- Prompt recipe generation with JSON export.
-- Local Canvas tools for sprite sheets, slice previews, image sequences, video frame extraction, and GIF output.
-- Result gallery for previewing and downloading generated assets.
+- Text-to-image and image-to-image workflow entry points
+- Prompt recipe builder for game asset generation
+- Canvas helpers for sprite sheets, slicing, and GIF workflows
+- Result shelf for previewing and downloading assets
+- OpenAI-compatible provider configuration
 
-## Structure
+## Tech Stack
 
-```text
+`	ext
+React, TypeScript, Vite, Canvas, OpenAI-compatible APIs
+`
+
+## Quick Start
+
+`ash
+npm install`nnpm run dev`n`nnpm run build
+`
+
+## Project Structure
+
+`	ext
 .
-├─ public/
-├─ src/
-│  ├─ components/
-│  ├─ features/
-│  ├─ services/
-│  ├─ types/
-│  └─ utils/
-├─ package.json
-└─ vite.config.ts
-```
+|-- src/ or app/          Main source code
+|-- public/ or assets/    Static assets when available
+|-- docs/                 Notes, specs, or deployment docs when available
+|-- README.md             English-first bilingual project guide
+-- package / project files
+`
 
-## Run Locally
+## Deployment / Packaging
 
-Requires Node.js 20.19+ or 22.12+.
+- Do not commit generated builds, local databases, API keys, private logs, or large media files.
+- For frontend projects, deploy the production dist/ folder to GitHub Pages, Vercel, Netlify, Nginx, or package it with DistDesktopLauncher.
+- For desktop/mobile projects, publish only release artifacts from a clean build environment.
+- Keep configuration examples public and real credentials private.
 
-```bash
-npm install
-npm run dev
-```
+## Roadmap
 
-## Build And Deploy
+- [ ] Preset packs for RPG, card, and casual game UI
+- [ ] Transparent-background asset workflow
+- [ ] Sprite animation timeline
+- [ ] Community prompt gallery
 
-```bash
-npm run build
-npm run preview
-```
+## Contributing
 
-The production build is written to `dist/`. Deploy it to GitHub Pages, Vercel, Netlify, Nginx, or package it with `DistDesktopLauncher` for a Windows desktop-style launch experience.
+Issues and pull requests are welcome. Useful contributions include better screenshots, demos, docs, templates, presets, provider guides, compatibility fixes, tests, and translations.
 
-## Notes
+If this project helps you, a star and fork make it easier for more people to discover it.
 
-- No API key is bundled in this repository.
-- `node_modules/`, `dist/`, generated test images, and caches are ignored.
-- Video generation APIs vary by provider; the current implementation keeps an extension point for compatible services.
 
-## Thanks
 
-Thank you for checking out this project. If it helps you move faster when prototyping game assets, a Star, Fork, issue, or suggestion would mean a lot and will encourage me to keep improving it.
+
