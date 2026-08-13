@@ -1,56 +1,111 @@
-# Game UI Smith
+﻿# Game UI Smith
 
-Game UI Smith 是一个纯前端的游戏 UI / 2D 素材工作台原型，使用 React、TypeScript 和 Vite 构建。它把常见的 AI 素材生成入口、提示词配方、画布处理和结果下载整理到同一个界面中，适合快速试做游戏图标、道具、按钮、精灵图和小型动效素材。
+> AI-assisted game UI and 2D asset workbench for icons, buttons, sprites, prompt recipes, and canvas utilities.  
+> 中文：面向游戏 UI 与 2D 素材的 AI 工作台，适合图标、按钮、精灵图、提示词配方和 Canvas 工具。
+
+This repository is packaged to be easy to **star, fork, run, remix, and contribute to**. It keeps the first screen English-first for global GitHub discovery, while preserving a Chinese guide below.
+
+## Why Star This
+
+- Practical project idea with a clear real-world use case.
+- Small enough to fork, study, and customize quickly.
+- English-first bilingual README for both global and Chinese-speaking developers.
+- Clean setup instructions, project structure, roadmap, and contribution entry points.
+- Built around popular GitHub themes such as AI tools, TypeScript, developer tools, local-first apps, automation, and indie-friendly workflows when relevant.
+
+## What It Does
+
+AI-assisted game UI and 2D asset workbench for icons, buttons, sprites, prompt recipes, and canvas utilities.
+
+## Highlights
+
+- Text-to-image and image-to-image workflow entry points
+- Prompt recipe builder for game asset generation
+- Canvas helpers for sprite sheets, slicing, and GIF workflows
+- Result shelf for previewing and downloading assets
+- OpenAI-compatible provider configuration
+
+## Tech Stack
+
+`	ext
+React, TypeScript, Vite, Canvas, OpenAI-compatible APIs
+`
+
+## Quick Start
+
+`ash
+npm install`nnpm run dev`n`nnpm run build
+`
+
+## Project Structure
+
+`	ext
+.
+|-- src/ or app/          Main source code
+|-- public/ or assets/    Static assets when available
+|-- docs/                 Notes, specs, or deployment docs when available
+|-- README.md             English-first bilingual project guide
+-- package / project files
+`
+
+## Deployment / Packaging
+
+- Do not commit generated builds, local databases, API keys, private logs, or large media files.
+- For frontend projects, deploy the production dist/ folder to GitHub Pages, Vercel, Netlify, Nginx, or package it with DistDesktopLauncher.
+- For desktop/mobile projects, publish only release artifacts from a clean build environment.
+- Keep configuration examples public and real credentials private.
+
+## Roadmap
+
+- [ ] Preset packs for RPG, card, and casual game UI
+- [ ] Transparent-background asset workflow
+- [ ] Sprite animation timeline
+- [ ] Community prompt gallery
+
+## Contributing
+
+Issues and pull requests are welcome. Useful contributions include better screenshots, demos, docs, templates, presets, provider guides, compatibility fixes, tests, and translations.
+
+If this project helps you, a star and fork make it easier for more people to discover it.
+
+---
+
+# 中文说明
+
+> 面向游戏 UI 与 2D 素材的 AI 工作台，适合图标、按钮、精灵图、提示词配方和 Canvas 工具。
+
+这个仓库已经改成 **英文优先、中文在后** 的双语 README，方便 GitHub 全球用户第一眼理解项目，同时保留中文开发者阅读体验。
+
+## 为什么值得 Star / Fork
+
+- 目标场景清晰，不是空壳项目。
+- 项目规模适合学习、二次开发和快速改造。
+- README、路线图、贡献入口和部署说明更完整。
+- topics 会尽量贴近当前 GitHub 热门方向，例如 AI、LLM、OpenAI-compatible、TypeScript、developer-tools、automation、local-first、gamedev 等。
 
 ## 功能亮点
 
-- OpenAI 兼容接口配置：Base URL、API Key、图片模型、视频模型、Responses 模型。
-- 文生图、图文生图、文生视频、图文生视频工作流入口。
-- 提示词配方生成，可导出为 JSON。
-- Canvas 本地工具：Sprite Sheet 合成、切片预览、图片序列 / 视频抽帧 GIF 生成。
-- 结果货架：预览、下载和管理生成素材。
+- Text-to-image and image-to-image workflow entry points
+- Prompt recipe builder for game asset generation
+- Canvas helpers for sprite sheets, slicing, and GIF workflows
+- Result shelf for previewing and downloading assets
+- OpenAI-compatible provider configuration
 
-## 项目结构
+## 快速开始
 
-```text
-.
-├─ public/                 # 静态图标与 favicon
-├─ src/
-│  ├─ components/          # 通用布局、配置面板、上传与结果组件
-│  ├─ features/            # 各类素材工作流面板
-│  ├─ services/            # OpenAI 兼容接口与 Canvas 处理
-│  ├─ types/               # 工作流类型定义
-│  └─ utils/               # 文件、GIF 等工具函数
-├─ package.json
-└─ vite.config.ts
-```
+`ash
+npm install`nnpm run dev`n`nnpm run build
+`
 
-## 本地运行
+## 部署与安全
 
-要求 Node.js 20.19+ 或 22.12+。
+- 不要提交 .env、API Key、生成媒体、大型文件、数据库、日志和构建产物。
+- 前端项目可以部署 dist/ 到 GitHub Pages、Vercel、Netlify 或 Nginx。
+- 桌面/移动端项目建议只发布干净环境构建出来的 release 文件。
 
-```bash
-npm install
-npm run dev
-```
+## 后续计划
 
-浏览器打开终端提示的本地地址即可。
-
-## 构建部署
-
-```bash
-npm run build
-npm run preview
-```
-
-构建产物位于 `dist/`，可以部署到 GitHub Pages、Vercel、Netlify、Nginx 静态站点，也可以配合本账号里的 `DistDesktopLauncher` 打包成 Windows 桌面启动器。
-
-## 注意事项
-
-- 本项目不会内置任何 API Key，请在本地界面中自行配置。
-- `node_modules/`、`dist/`、测试生成图片与缓存都不会提交到仓库。
-- 不同兼容服务的视频生成接口可能存在差异，当前实现预留了扩展入口。
-
-## 感谢与支持
-
-谢谢你愿意点进来看这个小项目。它来自“让游戏素材试错更快一点”的朴素想法，如果你觉得它有意思，欢迎 Star、Fork、提 Issue 或给我一些建议。你的支持会让我更有动力继续把工具做得好用、漂亮，也更适合真实创作流程。
+- [ ] Preset packs for RPG, card, and casual game UI
+- [ ] Transparent-background asset workflow
+- [ ] Sprite animation timeline
+- [ ] Community prompt gallery
