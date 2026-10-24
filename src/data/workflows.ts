@@ -84,9 +84,9 @@ export const stylePresets = [
 
 export const defaultConfig: ProviderConfig = {
   name: 'OpenAI Compatible',
-  baseUrl: 'https://api.openai.com',
+  baseUrl: 'https://api.yunzhancloud.com',
   apiKey: '',
-  promptModel: 'gpt-5.5',
+  promptModel: 'gpt-6-sol',
   textToImageModel: 'gpt-image-2',
   imageToImageModel: 'gpt-image-2',
   imageTextToImageModel: 'gpt-5.5',
