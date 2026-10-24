@@ -1,0 +1,140 @@
+图片生成 API 调用文档
+更新日期：2026-10-24
+
+说明：本文面向提供 OpenAI 兼容接口的服务。https://api.yunzhancloud.com 是占位符，须替换为实际 HTTPS 域名。以下“主要返回图片 URL”是目标网关预期提供的扩展行为，并非 OpenAI 官方 GPT Image 接口的原生返回格式；请确认网关已开启图片转存与 URL 返回。官方参数核对日期：2026-10-24。
+
+一、接口信息
+请求地址：https://api.yunzhancloud.com/v1/images/generations
+请求方法：POST
+Content-Type：application/json
+Authorization：Bearer YOUR_API_KEY
+主要结果：data[0].url；多张图片遍历 data[].url
+
+API Key 应使用该域名对应服务所颁发的密钥，并保存在服务端，不要暴露在网页前端、公开仓库或日志中。
+
+二、调用示例
+
+bash/macOS/Linux：
+curl -X POST "https://api.yunzhancloud.com/v1/images/generations" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "gpt-image-2.5-flare",
+    "prompt": "一张清晰的产品摄影图：白色陶瓷杯放在木桌上，自然日光，简洁背景",
+    "n": 1,
+    "size": "1024x1024",
+    "quality": "medium",
+    "output_format": "png"
+  }'
+
+Windows PowerShell：
+$headers = @{ Authorization = "Bearer $env:IMAGE_API_KEY" }
+$body = @{
+    model = "gpt-image-2.5-flare"
+    prompt = "一张清晰的产品摄影图：白色陶瓷杯放在木桌上，自然日光，简洁背景"
+    n = 1
+    size = "1024x1024"
+    quality = "medium"
+    output_format = "png"
+} | ConvertTo-Json
+$result = Invoke-RestMethod -Method Post `
+    -Uri "https://api.yunzhancloud.com/v1/images/generations" `
+    -Headers $headers -ContentType "application/json" -Body $body
+$result.data[0].url
+
+官方支持 gpt-image-2.5-flare，但第三方网关不一定开放；若未开放，请改为服务方公布的模型 ID。
+
+三、参数配置（OpenAI 官方 Images API 参考；第三方网关实际支持范围以服务方为准）
+
+model：建议显式填写，官方支持 gpt-image-2.5-flare；网关是否开放需确认。
+prompt：必填字符串，图片描述；官方上限 32,000 字符。
+n：可选整数，官方范围 1–10；多图读取 data 数组。
+size：可选字符串，生成和编辑输出尺寸；标准尺寸及自定义约束见下节。
+quality：可选，auto（默认）、low、medium、high；gpt-image-2.5-flare 和 gpt-image-2.5-sunburst 还支持 xhigh、max。
+output_format：可选，png、jpeg、webp。
+background：可选，auto（默认）、opaque、transparent；透明背景须用 png 或 webp。
+output_compression：可选整数 0–100，仅适用于 jpeg/webp。
+moderation：可选，auto（默认）或 low。
+safety_identifier：可选，终端用户稳定标识，官方最大 128 字符；建议用不可逆哈希。
+stream：可选布尔值，官方默认 false；本文 URL JSON 示例为非流式模式。
+partial_images：可选整数 0–3，仅适用于流式模式。
+
+不要为了获得 URL 而向 GPT Image 模型设置 response_format: "url"：官方已弃用此参数，GPT Image 模型不支持，原生图片数据返回 b64_json。style、standard/hd 品质值也不适用于当前 GPT Image。官方文档注明 gpt-image-1 于 2026-10-23 关闭，dall-e-2 和 dall-e-3 于 2026-05-12 退役。
+
+四、支持的图片大小
+
+size 表示输出图片的宽x高，单位为像素。生成和编辑接口的常用标准值：
+1024x1024：正方形，适合方形配图、头像、产品图。
+1536x1024：横图，适合横幅、桌面场景。
+1024x1536：竖图，适合海报、竖版内容。
+auto：仅适用于支持自动尺寸的模型。
+
+gpt-image-2、gpt-image-2.5-flare、gpt-image-2.5-sunburst 及官方文档列出的相应快照支持“宽x高”自定义尺寸，例如 1536x864。宽、高都须能被 16 整除，宽高比须在 1:3 至 3:1 之间；高于 2560x1440 属于实验性范围，官方标示最大尺寸为 3840x2160，还须满足具体模型的像素数与单边限制。并非任意组合都保证可用，第三方网关可能另有限制。其他模型建议使用标准尺寸。
+
+五、编辑已有图片
+
+请求地址：https://api.yunzhancloud.com/v1/images/edits
+请求方法：POST
+Content-Type：multipart/form-data（文件上传）
+Authorization：Bearer YOUR_API_KEY
+主要结果：网关启用转存时读取 data[0].url
+
+单图编辑示例（bash/macOS/Linux，在图片所在目录运行）：
+curl -X POST "https://api.yunzhancloud.com/v1/images/edits" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -F "model=gpt-image-2.5-flare" \
+  -F "image[]=@source.png" \
+  -F "prompt=保留原图主体与构图，将背景改为明亮的摄影棚白色背景" \
+  -F "size=1024x1024" \
+  -F "quality=medium"
+
+curl -F 会自动设置 multipart 边界，不要手动指定 Content-Type: application/json。source.png 须替换为本地文件路径。多图可重复传 image[]；官方 GPT Image 编辑接口最多支持 16 张输入图，但网关可能有更严格限制。prompt 必填；model、size、quality、n、output_format 等输出配置与生图类似，以目标服务支持为准。
+
+局部编辑可在上述请求中添加 -F "mask=@mask.png"。蒙版与待编辑原图须为相同格式和尺寸（官方指南要求小于 50 MB），并带 alpha 透明通道；透明区域指示待修改部分。多图时蒙版作用于第一张图。GPT Image 使用蒙版作为指引，不保证边缘完全按像素精确匹配。若网关不支持 image[] 或蒙版上传，请按其文档调整。
+
+编辑结果仍按网关扩展约定优先读取 data[].url；如返回 b64_json，请按下节处理。
+
+六、返回图片 URL（网关预期示例，需实际服务验证）
+
+{
+  "created": 1792828800,
+  "data": [
+    {
+      "url": "https://你的图片域名/images/example-001.png"
+    }
+  ]
+}
+
+data[i].url 是主要结果，用于展示或下载。不要假设 URL 永久有效，访问权限、有效期及防盗链策略由网关/存储服务决定。created 是 Unix 秒级时间戳，网关是否保留该字段需确认。
+
+OpenAI 官方 GPT Image 的原生响应示意：
+{
+  "created": 1792828800,
+  "data": [
+    {
+      "b64_json": "<BASE64_IMAGE_DATA>"
+    }
+  ]
+}
+
+如果结果只有 b64_json 而没有 url，需由服务端解码、存储图片并生成 URL，或直接处理 Base64；不能通过 response_format: "url" 强制官方 GPT Image 输出链接。
+
+七、常见问题与接入建议
+
+1. 成功后验证 data 为非空数组，再读取每一项 url。
+2. 401/403：核对 Key 和权限；400：核对参数、模型与内容限制；429：核对频率或额度；5xx：按服务方建议重试。具体错误体以目标服务为准。
+3. 设置合理超时与有限次数退避重试，不要对鉴权/参数错误无限重试。
+4. 要求网关在图片已存储并可访问后返回 URL，事先确认 URL 有效期、匿名访问及续期/删除策略。
+
+八、官方资料
+
+OpenAI Docs：Images API / Generate an Image
+https://developers.openai.com/api/reference/resources/images/methods/generate
+
+OpenAI Docs：Images API / Create image edit
+https://developers.openai.com/api/reference/resources/images/methods/edit
+
+OpenAI Docs：Image generation guide
+https://developers.openai.com/api/docs/guides/image-generation
+
+以上官方资料用于核对请求路径、参数与原生 Base64 返回。自定义域名、Key、URL 托管及链接期限属于目标网关配置，接入前须向服务提供方确认。
